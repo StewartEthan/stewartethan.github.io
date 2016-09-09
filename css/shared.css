@@ -40,6 +40,18 @@ main {
   padding: 30px;
 }
 
+main a {
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-size: 13pt;
+  color: #114477;
+  text-decoration: none;
+}
+
+main a:visited {
+  color: #114477;
+  text-decoration: none;
+}
+
 main div {
   padding-left: 15%;
   padding-right: 15%;

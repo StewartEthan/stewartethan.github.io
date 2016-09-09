@@ -1,0 +1,52 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<!-- Import other custom elements here -->
+
+<dom-module id="custom-bullet-list-links">
+  <template>
+    <style>
+      ul {
+        margin-top: 10px;
+        list-style: none;
+        margin-left: 0;
+        padding-left: 1em;
+        text-indent: -1em;
+      }
+
+      ul li {
+        margin-top: 5px;
+      }
+    </style>
+
+    <ul id="[[id]]">
+      <template is="dom-repeat" items="{{links}}">
+        <li>
+          &#10149;&nbsp;<a href="{{item.path}}">{{item.text}}</a>
+        </li>
+      </template>
+    </ul>
+    <script>
+
+    </script>
+  </template>
+
+  <script>
+    Polymer({
+      is: "custom-bullet-list-links",
+
+      properties: {
+        id: {
+          type: String,
+          value: "customList"
+        },
+        links: {
+          type: Array,
+          value: []
+        }
+      },
+
+      ready: function() {
+        // alert(this.links + "\n" + this.id);
+      }
+    })
+  </script>
+</dom-module>
