@@ -4,11 +4,65 @@
   <template>
     <style>
     #logo {
-
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    #text {
+    [role=banner] {
+        -webkit-box-flex: 1;
+        -webkit-flex: 1 100%;
+        -ms-flex: 1 100%;
+        flex: 1 100%;
+        padding: 30px;
+        -webkit-box-ordinal-group: 2;
+        -webkit-order: 1;
+        -ms-flex-order: 1;
+        order: 1;
+    }
 
+    header {
+        font-family: "Courier New", Courier, monospace;
+        color: #FFFFFF;
+        background-color: #114477;
+        padding: 6px;
+        margin: 0px;
+        text-shadow: 1.5px 1.5px 3px #000
+    }
+
+    header div {
+        margin: auto;
+    }
+
+    header div a{
+        width: 22%;
+        display: block;
+        padding: 0 5px;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    header img {
+        /*display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 70%;*/
+        display: block;
+        margin: auto;
+        width: auto;
+    }
+
+    header div h1 {
+        width: 78%;
+        display: block;
+        color: #FFFFFF;
+        text-shadow: 2px 2px 4px #000;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 2.5em;
+        text-align: center;
+        font-family: "Courier New", Courier, monospace;
     }
     </style>
     <header role="banner">

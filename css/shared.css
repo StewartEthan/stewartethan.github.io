@@ -1,0 +1,51 @@
+/*
+ * This stylesheet contains common styles used throughout the site
+ */
+
+/*Styles for the body*/
+body {
+  background-image: url(../images/computer-code-blue.jpg);
+  background-repeat: repeat;
+  background-attachment: fixed;
+  height: 100%;
+  min-height: 100%;
+}
+
+body>div {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/*Styles shared by multiple roles*/
+[role=banner],
+[role=main],
+[role=contentinfo] {
+  padding: 30px;
+}
+
+[role=main] {
+  -webkit-box-ordinal-group: 5;
+  order: 3;
+  -webkit-box-flex: 3;
+  flex: 3;
+}
+
+main {
+  font-family: Verdana, sans-serif;
+  font-size: 13pt;
+  color: black;
+  margin-left: 0px;
+  margin-right: 0px;
+  background-color: white;
+  padding: 30px;
+}
+
+main div {
+  padding-left: 15%;
+  padding-right: 15%;
+  text-align: justify;
+}
+
+main div h1 {
+  text-align: center;
+}

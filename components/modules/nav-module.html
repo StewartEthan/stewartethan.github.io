@@ -3,7 +3,65 @@
 <dom-module id="nav-module">
   <template>
     <style>
+      [role=navigation] {
+        -webkit-box-ordinal-group: 3;
+        -webkit-order: 2;
+        -ms-flex-order: 2;
+        order: 2;
+        padding: 0px;
+      }
 
+      /*nav {
+        display: block;
+        min-width: 100%;
+      }*/
+
+      nav div {
+        padding: 10px;
+        background-color: #114477;
+        border-top: 2px solid #D0D0D0;
+      }
+
+      nav div ul {
+        overflow: hidden;
+        list-style-type: none;
+        margin: auto;
+        -webkit-padding-start: 0px;
+      }
+
+      nav div ul li {
+        float: left;
+        width: 20%;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-size: 16pt;
+        color: white;
+        text-shadow: 1.5px 1.5px 3px black;
+        margin: 0px;
+        text-align: center;
+      }
+
+      nav div ul li a {
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        color: white;
+        background-color: #114477;
+        margin: 0px;
+        text-decoration: none;
+        display: inline-block;
+        padding: 10px;
+      }
+
+      nav div ul li a:visited {
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        color: white;
+        background-color: #114477;
+      }
+
+      nav div ul li a:hover {
+          /*border: 2px solid white;
+          margin: 0px;
+          padding: 7px;*/
+          font-weight: bold;
+      }
     </style>
 
     <nav id="nav-id" role="navigation">

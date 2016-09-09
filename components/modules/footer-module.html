@@ -3,7 +3,54 @@
 <dom-module id="footer-module">
   <template>
     <style>
+      [role=contentinfo] {
+        -webkit-box-ordinal-group: 6;
+        order: 4;
+        flex-basis: 100%;
+        flex: 1 100%;
+        padding: 30px;
+      }
 
+      footer {
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-size: 12pt;
+        color: white;
+        background-color: #114477;
+        margin: 0px;
+        border-top-width: 25px;
+        border-top-color: white;
+        text-shadow: 1.5px 1.5px 3px black;
+        bottom: 0;
+        display: block;
+      }
+
+      footer ul {
+        overflow: hidden;
+        list-style-type: none;
+        margin: auto;
+        -webkit-padding-start: 0px;
+      }
+
+      footer ul li {
+        display: inline-block;
+        width: 15%;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-size: 12pt;
+        color: white;
+        text-shadow: 1.5px 1.5px 3px black;
+        margin: 0px;
+        text-align: left;
+      }
+
+      footer ul li a {
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-size: 12pt;
+        color: white;
+        background-color: #114477;
+        text-decoration: none;
+        display: inline-block;
+        min-width: 100%;
+      }
     </style>
 
     <footer role="contentinfo">
