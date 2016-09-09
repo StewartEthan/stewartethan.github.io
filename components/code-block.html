@@ -1,0 +1,28 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="code-block">
+  <template>
+    <style>
+      .code-block {
+        font-family: Courier, monospace;
+        font-size: 16pt;
+        padding: 7px;
+        background-color: var(--code-block-background, black);
+        color: var(--code-block-text-color, #C0C0C0);
+      }
+    </style>
+
+    <pre class="code-block">
+      <content></content>
+    </pre>
+  </template>
+
+  <script>
+    Polymer({
+      is: "code-block",
+
+      properties: {
+      }
+    })
+  </script>
+</dom-module>

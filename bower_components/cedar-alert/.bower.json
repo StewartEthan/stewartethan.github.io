@@ -1,0 +1,32 @@
+{
+  "name": "cedar-alert",
+  "version": "0.1.1",
+  "description": "FamilySearch alert web component",
+  "main": [
+    "cedar-alert.html",
+    "cedar-alert.css"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "^3.4.0"
+  },
+  "homepage": "https://github.com/FamilySearchElements/cedar-alert",
+  "_release": "0.1.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.1.1",
+    "commit": "3c99d0dd620c4cabf2e899770e8f618350a990c1"
+  },
+  "_source": "git://github.com/FamilySearchElements/cedar-alert.git",
+  "_target": "^0.1.1",
+  "_originalSource": "FamilySearchElements/cedar-alert",
+  "_direct": true
+}

@@ -1,0 +1,14 @@
+{
+  "plugins": {
+    "istanbul": {
+      "dir": "./coverage",
+      "reporters": [
+        "text-summary", "lcov"
+      ],
+      "exclude": [],
+      "include": [
+        "**/cedar-alert.html"
+      ]
+    }
+  }
+}

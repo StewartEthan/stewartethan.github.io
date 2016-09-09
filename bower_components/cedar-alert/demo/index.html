@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>cedar-alert Demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <script type="text/javascript">
+      window.Polymer = { dom: 'shadow' };
+    </script>
+    <link rel="import" href="../cedar-alert.html">
+    <style>
+      body {
+        width: 442px;
+        margin: 20px auto;
+      }
+      h1 {
+        color: #666662 ;
+      }
+      .exampleText {
+        color: #666662 ;
+        display: block;
+        margin-bottom: 5px;
+        margin-top: 26px;
+      }
+    </style>
+  </head>
+  <body unresolved>
+
+    <h1>cedar-alert examples</h1>
+
+    <p>An example of <code>&lt;cedar-alert&gt;</code>:</p>
+
+    <cedar-alert>
+      Item deleted successfully. <a href="javascript:void(0);">Undo</a>.
+    </cedar-alert>
+
+    <p>An example of <code>&lt;cedar-alert auto-hide="5" fade-out="true"&gt;</code>:</p>
+
+    <cedar-alert auto-hide="5" fade-out="true">
+      An error occurred
+    </cedar-alert>
+
+    <p>An example of <code>&lt;cedar-alert dismissable&gt;</code>:</p>
+
+    <cedar-alert
+      dismissable
+      alert-body="A dismissable alert!">
+    </cedar-alert>
+
+    <p>An example of <code>&lt;cedar-alert dismissable alert-type="info" fade-out="true"&gt;</code>:</p>
+
+    <cedar-alert dismissable alert-type="info" fade-out="true">
+      A dismissable info alert!
+    </cedar-alert>
+
+    <p>An example of <code>&lt;cedar-alert dismissable alert-type="warning"&gt;</code>:</p>
+
+    <cedar-alert dismissable alert-type="warning">
+      A dismissable warning alert!
+    </cedar-alert>
+
+    <p>An example of <code>&lt;cedar-alert dismissable alert-type="error"&gt;</code>:</p>
+
+    <cedar-alert dismissable alert-type="error">
+      A dismissable error alert!
+    </cedar-alert>
+
+    <p>An example of <code>&lt;cedar-alert hidden&gt;</code>:</p>
+
+    <p>An example of <code>&lt;cedar-alert&gt;</code> with an <code>&lt;h4 title-alert&gt;</code>:</p>
+
+    <cedar-alert alert-title="I'm a title">
+      An info alert!
+    </cedar-alert>
+
+  </body>
+</html>

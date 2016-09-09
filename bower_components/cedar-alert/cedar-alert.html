@@ -1,0 +1,170 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`<cedar-alert>` adds an fs-styles-compatible alert to your page
+
+Basic usage:
+
+    <body>
+      <cedar-alert dismissable alert-type="info">
+        A dismissable info alert!
+      </cedar-alert>
+
+@element cedar-alert
+@demo demo/index.html
+@homepage http://familysearchelements.github.io/cedar-alert
+-->
+<dom-module id="cedar-alert">
+  <link rel="import" type="css" href="cedar-alert.css">
+  <template>
+    <div hidden="[[hidden]]" class$="cedar-alert-shadow cedar-alert-shadow--[[alertType]]">
+      <button on-click='hide' hidden="[[!dismissable]]" class="fs-dialog-shadow__close"></button>
+      <h4 hidden="[[!_boolify(alertTitle)]]">[[alertTitle]]</h4>
+      <p id="content"><content></content></p>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'cedar-alert',
+      properties: {
+        /** Whether to hide the alert. Useful for hiding by default. Gets toggled by show() and hide(). */
+        hidden: {
+          reflectToAttribute: true,
+          type: Boolean,
+          value: false
+        },
+        /** How to style the alert. Default is ''. Available options are: '', 'info', 'warning', and 'error' */
+        alertType: {
+          reflectToAttribute: true,
+          type: String,
+          value: ''
+        },
+        /** Whether to provide the x icon for users to dismiss this alert. */
+        dismissable: {
+          type: Boolean,
+          value: false
+        },
+        /** The title to be displayed. */
+        alertTitle: {
+          type: String,
+          value: ''
+        },
+        alertBody: {
+          type: String,
+          value: '',
+          observer: '_updateBody'
+        },
+        /** Whether to fill the available width. */
+        inline: {
+          reflectToAttribute: true,
+          type: Boolean,
+          value: false
+        },
+        /** How long (in seconds) before automatically hiding the alert. */
+        autoHide: {
+          type: Number,
+          value: -1
+        },
+        fadeOut: {
+          type: Boolean,
+          value: false
+        }
+      },
+      ready: function(){
+        this._handleAutoHide();
+      },
+      /**
+       * Shows the alert--sets hidden to true.
+       */
+      show: function(autoHide){
+        this.hidden = false;
+        this._handleAutoHide(autoHide);
+      },
+      /**
+       * Hides the alert--sets hidden to false.
+       */
+      hide: function(){
+        var fadeOut = (arguments.length === 2) ? arguments[2] : arguments[1];
+        this._handleFadeOut(fadeOut);
+      },
+      /**
+       * Styles, populates, and displays the modal.
+       */
+      success: function(title, body, dismissable){
+        this._setProps('', title, body, dismissable);
+      },
+      /**
+       * Styles, populates, and displays the modal.
+       */
+      info: function(title, body, dismissable){
+        this._setProps('info', title, body, dismissable);
+      },
+      /**
+       * Styles, populates, and displays the modal.
+       */
+      warning: function(title, body, dismissable){
+        this._setProps('warning', title, body, dismissable);
+      },
+      /**
+       * Styles, populates, and displays the modal.
+       */
+      error: function(title, body, dismissable){
+        this._setProps('error', title, body, dismissable);
+      },
+      /**
+       * Styles, populates, and displays the modal.
+       */
+      _setProps: function(type, title, body, dismissable){
+        this.alertType = type;
+        this.alertTitle = title;
+        this.alertBody = body;
+        this._updateBody();
+        this.dismissable = (typeof dismissable === 'boolean') ? dismissable : this.dismissable;
+        this.hidden = false;
+      },
+      /**
+       * Returns a bool based on whether a string is truthy and not empty.
+       */
+      _boolify: function(str){
+        return str && str.length;
+      },
+      /**
+       * Updates the alertBody property if it's truthy and not empty.
+       */
+      _updateBody: function(newVal, oldVal){
+        if(newVal && newVal.length){
+          this.$.content.innerHTML = this.alertBody;
+        }
+      },
+      /**
+       * Allows for conditional classes
+       */
+      _class: function(className, bool){
+        return (bool) ? className : '';
+      },
+      /**
+       * Executes autoHide logic
+       */
+      _handleAutoHide: function(autoHide){
+        var hideIn = autoHide || this.autoHide;
+        if(hideIn > 0){
+          setTimeout(function(){
+            this._handleFadeOut();
+          }.bind(this), hideIn * 1000);
+        }
+      },
+      _handleFadeOut: function(fadeOut){
+        if(fadeOut || this.fadeOut){
+          this.classList.add('fade-out');
+          setTimeout(function(){
+            this.hidden = true;
+            this.classList.remove('fade-out');
+          }.bind(this), 250);
+        } else {
+          this.hidden = true;
+        }
+      }
+    });
+  </script>
+</dom-module>
