@@ -3,29 +3,30 @@
 <dom-module id="header-module">
   <template>
     <style>
-      #logo {
+    #logo {
 
-      }
+    }
 
-      #text {
+    #text {
 
-      }
+    }
     </style>
-
-    <div id="logo">
-      <a href="/"><img src="/images/8-bit-logo.png" alt="Logo image" height="100" width="100" /></a>
-    </div>
-    <div id="text">
-      <h1>SPJS</h1>
-    </div>
+    <header role="banner">
+      <div id="logo">
+        <a href="/"><img src="/images/8-bit-logo.png" alt="Logo image" height="100" width="100" /></a>
+      </div>
+      <div id="text">
+        <h1>SPJS</h1>
+      </div>
+    </header>
   </template>
 
   <script>
-    Polymer({
-      is: "header-module",
+  Polymer({
+    is: "header-module",
 
-      properties: {
-      }
-    })
+    properties: {
+    }
+  })
   </script>
 </dom-module>
