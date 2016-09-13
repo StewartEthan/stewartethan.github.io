@@ -3,16 +3,23 @@
 <dom-module id="code-block">
   <template>
     <style>
-      .code-block {
+      #codeBlock {
         font-family: Courier, monospace;
-        font-size: 16pt;
-        padding: 7px;
-        background-color: var(--code-block-background, black);
-        color: var(--code-block-text-color, green);
+        font-size: 1.2em;
+        padding-left: 20px;
+        padding-top: 0px;
+        margin: 15px;
+        /*background-color: [[bgColor]];
+        color: [[textColor]]*/
+        white-space: pre-line;
       }
     </style>
 
-    <pre class="code-block">
+    <!--
+      TODO: Add line numbering (make it optional?)
+      Possible solution: table tag, w/ line numbers in left cell for each row
+    -->
+    <pre id="codeBlock">
       <content></content>
     </pre>
   </template>
@@ -22,6 +29,21 @@
       is: "code-block",
 
       properties: {
+        bgColor: {
+          type: String,
+          value: "black"
+        },
+
+        textColor: {
+          type: String,
+          value: "green"
+        }
+      },
+
+      ready: function() {
+        var block = document.getElementById('codeBlock');
+        block.style.color = this.textColor;
+        block.style.backgroundColor = this.bgColor;
       }
     })
   </script>
