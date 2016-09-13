@@ -5,7 +5,7 @@
   <template>
     <style>
       ul {
-        margin-top: 10px;
+        margin-top: 15px;
         list-style: none;
         margin-left: 0;
         padding-left: 1em;
@@ -18,9 +18,10 @@
     </style>
 
     <ul id="[[id]]">
-      <template is="dom-repeat" items="{{links}}">
+      <template is="dom-repeat" items="[[links]]">
         <li>
-          &#10149;&nbsp;<a href="{{item.path}}">{{item.text}}</a>
+          <!-- &#10149; Unicode for acceptable arrow to use as default -->
+          <span class="bullet">[[bullet]]</span>&nbsp;<a href="{{item.path}}">{{item.text}}</a>
         </li>
       </template>
     </ul>
@@ -41,11 +42,11 @@
         links: {
           type: Array,
           value: []
+        },
+        bullet: {
+          type: String,
+          value: "\u27A5"
         }
-      },
-
-      ready: function() {
-        // alert(this.links + "\n" + this.id);
       }
     })
   </script>
