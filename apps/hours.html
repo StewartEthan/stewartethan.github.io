@@ -1,15 +1,143 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
+  <!-- <script src="/js/polymer-setup.js"></script> -->
   <link rel="import" href="/components/modules/head-module.html" />
   <link rel="import" href="/components/modules/header-module.html" />
   <link rel="import" href="/components/modules/nav-module.html" />
   <link rel="import" href="/components/modules/footer-module.html" />
+  <link rel="import" href="/bower_components/cedar-alert/cedar-alert.html" />
 
-  <head-module title=""></head-module>
-  <style>
+  <head-module title="Hours Calculator"></head-module>
+  <script>
+    /**
+     * [Gets inputs, gets the calculated result, and displays an error or the result]
+     */
+    function doInputOutput() {
+      // Get the inputs
+      var lunch = document.getElementById('lunch').value;
+      var timeIn = document.getElementById('timeIn').value;
+      var timeOut = document.getElementById('timeOut').value;
 
-  </style>
+      // Calculate the hours
+      var hours = calcHours(timeIn, timeOut, lunch);
+
+      // Display an error if necessary
+      if (hours.error) {
+        document.getElementById('errorMessage').error(hours.title, hours.message, true);
+      } else {
+        // Display the results
+        document.getElementById('hours').innerHTML = hours.time.toFixed(2) + " hours";
+      }
+    }
+
+    /**
+     * Helper function to determine if a variable is empty
+     *
+     * Returns true if value is equal to any of the following:
+     *   undefined
+     *   null
+     *   '' (empty string)
+     *   [] (empty array)
+     *   {} (empty object)
+     * @param  {[any]} value [The value to be checked]
+     * @return {[Boolean]}   [Whether value is empty]
+     */
+    function empty(value) {
+      return value === undefined
+        || value === null
+        || value === ''
+        || value === []
+        || value === {};
+    }
+
+    /**
+     * [Calculates the number of hours worked]
+     * @param  {[String]} timeIn  [The start time for the calculation]
+     * @param  {[String]} timeOut [The end time for the calculation]
+     * @param  {[String]} lunch   [How many minutes to subtract for lunch]
+     * @return {[Object]}         [Object containing whether an error occured,
+     *                             a title and message if an error happened, and
+     *                             a time value of how many hours were worked]
+     */
+    function calcHours(timeIn, timeOut, lunch) {
+      var hours = {error: false, title: "Invalid input", message: '', time: 0};
+
+      // Handle negative lunch time
+      lunch = lunch == '' ? 0 : parseInt(lunch);
+      if (lunch < 0 && !hours.error) {
+        hours.error = true;
+        hours.message =
+          "There's no such thing as a negative lunch break! " +
+          "Enter zero or a positive number in the lunch input, " +
+          "or leave it empty for no lunch break.";
+
+        return hours;
+      }
+
+      // Handle empty timeIn/timeOut fields
+      if ((empty(timeIn) || empty(timeOut)) && !hours.error) {
+        hours.error = true;
+        hours.title = "Empty fields";
+        hours.message =
+          "Time in and Time out must both contain a valid time. " +
+          "Please enter a valid time in both fields and try again.";
+
+        return hours;
+      }
+
+      // Parse into hour and minute sections
+      var hourIn = parseInt(timeIn.substr(0, 2));
+      var minIn = parseInt(timeIn.substr(3, 2));
+      var hourOut = parseInt(timeOut.substr(0, 2));
+      var minOut = parseInt(timeOut.substr(3, 2));
+
+      // Handle out time < in time
+      var invalidTime = (hourOut < hourIn) ||
+      (minOut < minIn && hourOut === hourIn);
+      if (invalidTime && !hours.error) {
+        hours.error = true;
+        hours.message =
+          "Time in cannot be later than time out.\n" +
+          "Please adjust the value of time in or time out\n" +
+          "and try again.";
+
+        return hours;
+      }
+
+      // Calculate the diffs
+      var hourDiff = hourOut - hourIn;
+      var minDiff = minOut - minIn;
+
+      // Adjust for minDiff overlap
+      if (minDiff < 0) {
+        hourDiff--;
+        minDiff = 60 + minDiff;
+      }
+
+      // Make the result a decimal number
+      hours.time = hourDiff + minDiff / 60;
+
+      // Adjust for lunch
+      lunch /= 60;
+      hours.time -= lunch;
+
+      return hours;
+    }
+
+    /**
+     * [Updates the calculated result as input values are changed]
+     */
+    function updateResults() {
+      // Get the contents of the div
+      var current = document.getElementById('hours').innerHTML;
+
+      // Update if the div isn't empty
+      if (!empty(current)) {
+        doInputOutput();
+      }
+    }
+  </script>
 </head>
 
 <body>
@@ -18,7 +146,42 @@
     <nav-module></nav-module>
     <main>
       <div>
-        <!-- Page content here -->
+        <h1>Hours Worked</h1>
+        <cedar-alert id="errorMessage" alert-type="error" hidden dismissable></cedar-alert>
+        <!-- <span id="explanation">
+            <span class="strong">Background</span><br>
+            As a web development intern paid by the hour, I have to calculate the
+            hours I work each day and log them (we don't use a time clock). Lunch is
+            taken on my own time (unpaid), and so I also have to account for that when
+            I log my time for the day. After doing this with a calculator several
+            times, I decided it would be easier to just input my in and out times and
+            how long my lunch was, and have the answer calculated for me. And I figured, since I'm
+            a developer, why not write it myself? So here is a simple app that will
+            calculate the difference between the in and out times entered, and subtract lunch.
+            If nothing is entered in the lunch input, 0 is assumed.
+
+            <span class="strong">Future Improvements</span><br>
+            List of future improvements may go here
+        </span> -->
+
+        <div class="input-group">
+            <label>Time in:</label><br>
+            <input type="time" id="timeIn" onchange="updateResults()"><br>
+        </div>
+
+        <div class="input-group">
+            <label>Time out:</label><br>
+            <input type="time" id="timeOut" onchange="updateResults()"><br>
+        </div>
+
+        <div class="input-group">
+            <label>Length of lunch:</label><br>
+            <input type="number" id="lunch" placeholder="(in minutes)" onchange="updateResults()"><br>
+        </div>
+
+        <button type="button" class="func-call" onclick="doInputOutput()">Calculate Hours</button>
+
+        <div id="hours"></div>
       </div>
     </main>
     <footer-module></footer-module>
