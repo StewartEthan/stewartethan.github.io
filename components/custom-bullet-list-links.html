@@ -20,8 +20,7 @@
     <ul id="[[id]]">
       <template is="dom-repeat" items="[[links]]">
         <li>
-          <!-- &#10149; Unicode for acceptable arrow to use as default -->
-          <span class="bullet">[[bullet]]</span>&nbsp;<a href="{{item.path}}">{{item.text}}</a>
+          <span class="bullet">[[bullet]]</span>&nbsp;<a href="[[item.path]]">[[item.text]]</a>
         </li>
       </template>
     </ul>
@@ -45,7 +44,7 @@
         },
         bullet: {
           type: String,
-          value: "\u27A5"
+          value: "\u27A5" // Arrow character that seems to work well
         }
       }
     })

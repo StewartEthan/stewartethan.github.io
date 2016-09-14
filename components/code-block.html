@@ -29,6 +29,7 @@
       is: "code-block",
 
       properties: {
+        // Background color
         bgColor: {
           type: String,
           value: "black"
@@ -41,6 +42,7 @@
       },
 
       ready: function() {
+        // Set the code block's colors
         var block = document.getElementById('codeBlock');
         block.style.color = this.textColor;
         block.style.backgroundColor = this.bgColor;
