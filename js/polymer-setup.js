@@ -19,11 +19,11 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-// Setup Polymer options
-window.Polymer = {
-  dom: 'shadow',
-  lazyRegister: true
-};
+ // Setup Polymer options
+ window.Polymer = {
+   dom: 'shadow',
+   lazyRegister: true
+ };
 
 // Load webcomponentsjs polyfill if browser does not support native Web Components
 (function() {
