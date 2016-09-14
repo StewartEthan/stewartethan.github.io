@@ -40,13 +40,6 @@ main {
   padding: 30px;
 }
 
-main a {
-  /*font-family: "Trebuchet MS", Helvetica, sans-serif;*/
-  /*font-size: 13pt;*/
-  color: #114477;
-  text-decoration: none;
-}
-
 main a:visited {
   color: #114477;
   text-decoration: none;
@@ -60,4 +53,35 @@ main div {
 
 main div h1 {
   text-align: center;
+}
+
+main div #explanation {
+    /*float: right;*/
+    width: 50%;
+}
+
+main div #hours {
+    padding-left: 0%;
+    padding-right: 0%;
+    margin-top: 15px;
+    font-size: 22pt;
+}
+
+main div .func-call {
+    margin-top: 15px;
+    width: 20%;
+}
+
+main div .input-group {
+    margin-top: 15px;
+    padding-left: 0%;
+    padding-right: 0%;
+}
+
+main div .input-group input {
+    width: 20%;
+}
+
+main div .strong {
+    font-weight: bold;
 }
