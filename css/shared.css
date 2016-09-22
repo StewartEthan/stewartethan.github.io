@@ -30,6 +30,10 @@ body>div {
   flex: 3;
 }
 
+a {
+  cursor: pointer;
+}
+
 main {
   font-family: Verdana, sans-serif;
   font-size: 13pt;
