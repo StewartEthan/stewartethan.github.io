@@ -1,0 +1,128 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<!-- Import other custom elements here -->
+
+<dom-module id="grocery-calculator">
+  <template>
+    <style>
+
+    </style>
+
+    <!-- Markup goes here -->
+    <input type="number" pattern="[0-9]*" id="price" placeholder="Price..." /><br />
+    <input type="number" pattern="[0-9]*" id="quantity" placeholder="Quantity" />
+    <input type="number" pattern="[0-9]*" id="unitPrice" placeholder="Price per unit" /><br />
+    <button type="button" id="updateButton">Add</button>
+    <button type="button" id="clearButton">Clear</button>
+    <div id="subtotal"></div>
+    <div id="tax"></div>
+    <div id="total"></div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: "grocery-calculator",
+
+      properties: {
+        currency: {
+          type: String,
+          value: "$",
+          observer: '_updateAll'
+        },
+
+        taxRate: {
+          type: Number,
+          value: 0,
+          observer: '_updateAll'
+        },
+
+        subtotal: {
+          type: Number,
+          value: 0,
+          observer: '_displaySub'
+        },
+
+        tax: {
+          type: Number,
+          value: 0,
+          observer: '_displayTax'
+        },
+
+        total: {
+          type: Number,
+          value: 0,
+          observer: '_displayTotal'
+        },
+
+        lastAdded: {
+          type: Number,
+          value: 0
+        }
+      },
+
+      _numToMoney: function(num) {
+        if (num === undefined || num === null || isNaN(num)) num = 0;
+        return this.currency + num.toFixed(2);
+      },
+
+      _updateAll: function() {
+        this.$.subtotal.innerHTML = "Subtotal: " + this._numToMoney(this.subtotal);
+        this.$.tax.innerHTML = "Tax: " + this._numToMoney(this.subtotal * this.taxRate);
+        this.$.total.innerHTML = "Total: " + this._numToMoney(this.subtotal + this.tax);
+      },
+
+      _displaySub: function() {
+        this.$.subtotal.innerHTML = "Subtotal: " + this._numToMoney(this.subtotal);
+      },
+
+      _displayTax: function() {
+        this.$.tax.innerHTML = "Tax: " + this._numToMoney(this.tax);
+      },
+
+      _displayTotal: function() {
+        this.$.total.innerHTML = "Total: " + this._numToMoney(this.total);
+      },
+
+      updateNumbers: function() {
+        var price = this.$.price.value;
+        if (price !== '') {
+          this.lastAdded = parseFloat(price);
+        } else {
+          var quantity = this.$.quantity.value;
+          var unitPrice = this.$.unitPrice.value;
+          if (quantity !== '' && unitPrice !== '') {
+            this.lastAdded = parseFloat(quantity) * parseFloat(unitPrice);
+          }
+        }
+
+        this._clearInputs();
+        this.subtotal += this.lastAdded;
+        this.tax = this.subtotal * this.taxRate;
+        this.total = this.subtotal + this.tax;
+      },
+
+      _clearInputs: function() {
+        this.$.price.value = "";
+        this.$.quantity.value = "";
+        this.$.unitPrice.value = "";
+      },
+
+      _clearDisplays: function() {
+        this.subtotal = 0;
+        this.tax = 0;
+        this.total = 0;
+      },
+
+      clearAll: function() {
+        this._clearInputs();
+        this._clearDisplays();
+      },
+
+      ready: function() {
+        this.listen(this.$.updateButton, 'tap', 'updateNumbers');
+        this.listen(this.$.clearButton, 'tap', 'clearAll');
+        this._updateAll();
+      }
+    });
+  </script>
+</dom-module>
