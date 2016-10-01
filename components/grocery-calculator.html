@@ -4,18 +4,64 @@
 <dom-module id="grocery-calculator">
   <template>
     <style>
+      button {
+        background-color: #114477;
+        border: none;
+        color: white;
+        cursor: default;
+        font-size: 1.5em;
+        height: 50px;
+        padding: 0;
+        text-transform: uppercase;
+        width: 49%;
+      }
 
+      input {
+        font-size: 1.5em;
+        text-align: right;
+        margin-bottom: 5px;
+      }
+
+      #clearButton {
+        margin-left: -1px;
+      }
+
+      #price {
+        width: 98.25%;
+        height: 50px;
+      }
+
+      #wrapper {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #quantity, #unitPrice {
+        width: 48%;
+        height: 50px;
+      }
     </style>
 
     <!-- Markup goes here -->
-    <input type="number" pattern="[0-9]*" id="price" placeholder="Price..." /><br />
-    <input type="number" pattern="[0-9]*" id="quantity" placeholder="Quantity" />
-    <input type="number" pattern="[0-9]*" id="unitPrice" placeholder="Price per unit" /><br />
-    <button type="button" id="updateButton">Add</button>
-    <button type="button" id="clearButton">Clear</button>
-    <div id="subtotal"></div>
-    <div id="tax"></div>
-    <div id="total"></div>
+    <div id="wrapper">
+      <input type="number" pattern="[0-9]*" id="price" placeholder="Price..." /><br />
+      <input type="number" pattern="[0-9]*" id="quantity" placeholder="Qty..." />
+      <input type="number" pattern="[0-9]*" id="unitPrice" placeholder="Price/unit..." /><br />
+      <button type="button" id="updateButton">Add</button>
+      <button type="button" id="clearButton">Clear</button>
+      <div class="results">
+        <span class="label">Subtotal:&nbsp;</span>
+        <span id="subtotal"></span>
+      </div>
+      <div class="results">
+        <span class="label">Tax:&nbsp;</span>
+        <span id="tax"></span>
+      </div>
+      <div class="results">
+        <span class="label">Total:&nbsp;</span>
+        <span id="total"></span>
+      </div>
+    </div>
 
   </template>
 
@@ -66,21 +112,21 @@
       },
 
       _updateAll: function() {
-        this.$.subtotal.innerHTML = "Subtotal: " + this._numToMoney(this.subtotal);
-        this.$.tax.innerHTML = "Tax: " + this._numToMoney(this.subtotal * this.taxRate);
-        this.$.total.innerHTML = "Total: " + this._numToMoney(this.subtotal + this.tax);
+        this.$.subtotal.innerHTML = this._numToMoney(this.subtotal);
+        this.$.tax.innerHTML = this._numToMoney(this.subtotal * this.taxRate);
+        this.$.total.innerHTML = this._numToMoney(this.subtotal + this.tax);
       },
 
       _displaySub: function() {
-        this.$.subtotal.innerHTML = "Subtotal: " + this._numToMoney(this.subtotal);
+        this.$.subtotal.innerHTML = this._numToMoney(this.subtotal);
       },
 
       _displayTax: function() {
-        this.$.tax.innerHTML = "Tax: " + this._numToMoney(this.tax);
+        this.$.tax.innerHTML = this._numToMoney(this.tax);
       },
 
       _displayTotal: function() {
-        this.$.total.innerHTML = "Total: " + this._numToMoney(this.total);
+        this.$.total.innerHTML = this._numToMoney(this.total);
       },
 
       updateNumbers: function() {
