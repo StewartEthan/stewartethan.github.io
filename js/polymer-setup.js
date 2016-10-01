@@ -20,10 +20,11 @@
  */
 
  // Setup Polymer options
- window.Polymer = {
-   dom: 'shadow',
-   lazyRegister: true
- };
+ // Commented out because this breaks things
+ // window.Polymer = {
+ //   dom: 'shadow',
+ //   lazyRegister: true
+ // };
 
 // Load webcomponentsjs polyfill if browser does not support native Web Components
 (function() {
