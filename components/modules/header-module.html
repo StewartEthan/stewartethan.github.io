@@ -3,7 +3,7 @@
 <dom-module id="header-module">
   <template>
     <style>
-    [role=banner] {
+    /*[role=banner] {
         flex: 1 100%;
         -ms-flex: 1 100%;
         -ms-flex-order: 1;
@@ -12,61 +12,60 @@
         -webkit-box-ordinal-group: 2;
         -webkit-flex: 1 100%;
         -webkit-order: 1;
-    }
+    }*/
 
     header {
-        background-color: #114477;
-        color: #FFFFFF;
-        font-family: "Courier New", Courier, monospace;
-        margin: 0px;
+      /*background-color: #121249;*/
+      background-color: #002265;
+      color: white;
+      font-family: "Courier New", Courier, monospace;
+      margin: 0px;
+      padding: 30px;
+      /*padding-top: 25px;*/
     }
 
     header div {
-        margin: auto;
+      margin: auto;
+      width: 100%;
     }
 
-    header div a{
-        display: block;
-        margin-top: auto;
-        margin-bottom: auto;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 0 5px;
-        width: 22%;
-        cursor: pointer;
+    header h1 {
+      font-size: 2.5em;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      text-shadow: 2px 2px 4px black;
     }
 
-    header img {
-        display: block;
-        margin: auto;
-        width: auto;
-    }
-
-    header div h1 {
-        color: #FFFFFF;
-        display: block;
-        font-size: 2.5em;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;
-        text-shadow: 2px 2px 4px #000;
-        width: 78%;
+    #logo {
+      display: flex;
+      margin: auto;
+      width: 100%;
     }
 
     #logo a {
-      font-size: 72pt;
       color: white;
-      text-decoration: none;
       display: flex;
+      font-size: 6em;
+      margin: auto;
+      padding: 5px;
+      /*padding-left: 0;*/
+      text-decoration: none;
+      /*width: 20%*/
+    }
+
+    #logo img {
+      margin: auto;
+      width: auto;
     }
     </style>
-    <header role="banner">
+    <header>
       <div id="logo">
         <a href="/">{<img src="/images/8-bit-logo.png" alt="Logo image" height="100" width="100" />}</a>
       </div>
-      <div id="text">
+      <!-- <div id="text">
         <h1>Web Dev</h1>
-      </div>
+      </div> -->
     </header>
   </template>
 

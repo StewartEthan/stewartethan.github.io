@@ -4,15 +4,15 @@
   <template>
     <style>
       [role=contentinfo] {
-        -webkit-box-ordinal-group: 6;
+        /*-webkit-box-ordinal-group: 6;
         order: 4;
         flex-basis: 100%;
         flex: 1 100%;
-        box-sizing: border-box;
+        box-sizing: border-box;*/
       }
 
       footer {
-        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        /*font-family: "Trebuchet MS", Helvetica, sans-serif;
         font-size: 12pt;
         color: white;
         background-color: #114477;
@@ -27,24 +27,24 @@
         bottom: 0;
         position: relative;;
         width: 100%;
-        max-width: 100%;
+        max-width: 100%;*/
 
         ul {
-          /*overflow: hidden;*/
-          /*list-style-type: none;*/
+          /*overflow: hidden;
+          list-style-type: none;
           margin: auto;
           margin-top: 4px;
-          -webkit-padding-start: 0px;
+          -webkit-padding-start: 0px;*/
 
           li {
-            display: inline-block;
+            /*display: inline-block;
             width: 15%;
-            /*font-family: "Trebuchet MS", Helvetica, sans-serif;
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
             font-size: 12pt;
             color: white;
-            text-shadow: 1.5px 1.5px 3px black;*/
+            text-shadow: 1.5px 1.5px 3px black;
             margin: 0px;
-            text-align: left;
+            text-align: left;*/
 
             a {
               /*font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -54,14 +54,56 @@
               background-color: #114477;
               text-decoration: none;
               display: inline-block;*/
-              min-width: 100%;
+              /*min-width: 100%;*/
             } /* a */
           } /* li */
         } /* ul */
       } /* footer */
+
+      footer {
+        background-color: #002265;
+        border-top: 25px solid white;
+        /*bottom: 0;*/
+        color: white;
+        /*display: block;*/
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-size: 12pt;
+        margin: 0 auto;
+        padding: 30px;
+        /*position: relative;*/
+      }
+
+      footer ul {
+        overflow: hidden;
+        list-style-type: none;
+        margin: auto;
+        margin-top: 4px;
+        -webkit-padding-start: 0px;
+      }
+
+      footer ul li {
+        display: inline-block;
+        width: 15%;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-size: 12pt;
+        /*color: white;*/
+        text-shadow: 1.5px 1.5px 3px black;
+        /*margin: 0px;*/
+        text-align: left;
+      }
+
+      footer ul li a {
+        /*font-family: "Trebuchet MS", Helvetica, sans-serif;*/
+        /*font-size: 12pt;*/
+        color: white;
+        cursor: pointer;
+        /*background-color: #114477;*/
+        text-decoration: none;
+        /*display: inline-block;*/
+      }
     </style>
 
-    <footer role="contentinfo">
+    <footer>
       <div>
         All content (unless otherwise noted) is by Ethan Stewart.
         <div>
@@ -69,9 +111,9 @@
             <li>
               <a href="/apps">Apps</a>
             </li>
-            <!-- <li>
+            <li>
               <a href="/about">About</a>
-            </li> -->
+            </li>
           </ul>
         </div>
       </div>
