@@ -1,0 +1,41 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<!-- Import other custom elements here -->
+
+<dom-module id="recipe-beautifier">
+  <template>
+    <style>
+      .writable {
+        border: 1px solid gray;
+        height: 300px;
+      }
+
+      .writable:focus {
+        outline: none;
+      }
+
+      #directions {
+        float: right;
+        width: 49%;
+      }
+
+      #ingredients {
+        float: left;
+        width: 49%;
+      }
+    </style>
+
+    <div id="wrapper">
+      <span id="ingredients" class="writable" contenteditable></span>
+      <span id="directions" class="writable" contenteditable></span>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: "recipe-beautifier",
+
+      properties: {
+      }
+    })
+  </script>
+</dom-module>
