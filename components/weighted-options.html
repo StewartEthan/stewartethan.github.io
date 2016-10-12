@@ -1,0 +1,43 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<!-- Import other custom elements here -->
+
+<dom-module id="weighted-options">
+  <template>
+    <style>
+
+    </style>
+
+    <div>
+      <template is="dom-repeat" items="{{topics}}">
+        <div id="{{topic.id}}" class="option">
+          <script>alert([[topic.name]]);</script>
+          <span class="topic-name">{{topic.name}}</span>
+          <select id="{{topic.likeId}}">
+            <option value="like">Like</option>
+            <option value="dislike">Dislike</option>
+          </select>
+          <input type="number" id="{{topic.weightId}}" class="topic-weight" min="1" max="10" value="5" />
+        </div>
+      </template>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: "weighted-options",
+
+      properties: {
+        topics: {
+          type: Array,
+          value: function() {
+            return [
+              {"id":"one","name":"One","likeId":"oneLike","weightId":"oneWeight"},
+              {"id":"two","name":"Two","likeId":"twoLike","weightId":"twoWeight"},
+              {"id":"three","name":"Three","likeId":"threeLike","weightId":"threeWeight"}
+            ];
+          }
+        }
+      }
+    })
+  </script>
+</dom-module>

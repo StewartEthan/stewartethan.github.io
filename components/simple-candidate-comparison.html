@@ -1,0 +1,143 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/components/weighted-options.html">
+
+<dom-module id="simple-candidate-comparison">
+  <template>
+    <style>
+      .hidden {
+        display: none;
+      }
+
+      .huge {
+        font-size: 72pt;
+      }
+
+      #addForm {
+        margin-top: 10px;
+        width: 146px;
+      }
+
+      #addForm * {
+        max-width: 100%;
+        margin: 10px auto;
+      }
+
+      #addForm input {
+        font-size: 1.25em;
+        height: 30px;
+        padding-left: 5px;
+        width: 97%;
+      }
+
+      #addForm input:focus {
+        /*outline-color: #002265;*/
+        outline-width: 3px;
+      }
+
+      #addForm .custom-button {
+        background-color: #002265;
+        border: 2px solid black;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
+        padding: 7px;
+        text-align: center;
+        text-shadow: 1.5px 1.5px 3px black;
+      }
+
+      #addForm #addButton {
+        float: left;
+        margin-right: 2px;
+        width: 29%;
+      }
+
+      #addForm #cancelButton {
+        float: right;
+        margin-right: 0;
+        width: 44%;
+      }
+
+      #toggleAddForm {
+        border: 1px solid black;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bolder;
+        padding-bottom: 15px;
+        text-align: center;
+        width: 150px;
+      }
+    </style>
+
+    <!-- Markup goes here -->
+    <div id="wrapper">
+      <div id="candidates">
+        <template is="dom-repeat" items="{{candidates}}">
+          <div class="candidate-name">
+            {{item.name}}
+          </div>
+          <weighted-options></weighted-options>
+        </template>
+      </div>
+
+      <div id="toggleAddForm">
+        <div class="huge">
+          +
+        </div>
+        <div>
+          Add Candidate
+        </div>
+      </div>
+      <form class="hidden" id="addForm">
+        <input type="text" id="nameToAdd" placeholder="Name" /><br />
+        <span class="custom-button" id="addButton">Add</span>
+        <span class="custom-button" id="cancelButton">Cancel</span>
+      </form>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: "simple-candidate-comparison",
+
+      properties: {
+        candidates: {
+          type: Array,
+          value: function(){return [];}
+        }
+      },
+
+      _addCandidate: function() {
+        // Check for actual input
+        var name = this.$.nameToAdd.value;
+        if (name !== '' && name !== null && name !== undefined) {
+          // Add the candidate to the array
+          this.push('candidates', {"name": name});
+        }
+
+        // Hide the form again
+        this._hideForm();
+      },
+
+      _cancelAdd: function() {
+        // Just hide the form again
+        this._hideForm();
+      },
+
+      _hideForm: function() {
+        // Hide the form and clear the input
+        this.$.addForm.classList.add('hidden');
+        this.$.nameToAdd.value = "";
+      },
+
+      _toggleAddForm: function() {
+        this.$.addForm.classList.toggle('hidden');
+      },
+
+      ready: function() {
+        this.listen(this.$.toggleAddForm, 'tap', '_toggleAddForm');
+        this.listen(this.$.addButton, 'tap', '_addCandidate');
+        this.listen(this.$.cancelButton, 'tap', '_cancelAdd');
+      }
+    })
+  </script>
+</dom-module>
