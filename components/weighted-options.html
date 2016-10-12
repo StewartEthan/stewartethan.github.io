@@ -10,7 +10,6 @@
     <div>
       <template is="dom-repeat" items="{{topics}}">
         <div id="{{topic.id}}" class="option">
-          <script>alert([[topic.name]]);</script>
           <span class="topic-name">{{topic.name}}</span>
           <select id="{{topic.likeId}}">
             <option value="like">Like</option>
