@@ -90,9 +90,13 @@
         list-style-type: none;
         margin: auto;
         -webkit-padding-start: 0px;
+
+        display: flex;
+        justify-content: space-around;
       }
 
       nav div ul li {
+        /*TODO: Use flexbox and space-between instead of width*/
         float: left;
         width: 25%;
         font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -111,6 +115,12 @@
         text-transform: uppercase;
         display: inline-block;
         /*padding: 10px;*/
+      }
+
+      @media print {
+        .print-hide {
+          display: none;
+        }
       }
     </style>
 
