@@ -4,29 +4,136 @@
 <dom-module id="recipe-beautifier">
   <template>
     <style>
+      @media print {
+        header-module, nav-module, footer-module, .buttons * {
+          display: none;
+        }
+      }
+      pre {
+        font-family: Verdana, sans-serif;
+      }
+
+      .buttons {
+        margin: 10px 0;
+
+        display: flex;
+        justify-content: center;
+      }
+
+      .custom-button {
+        background-color: #002265;
+        border-radius: 10px;
+        cursor: pointer;
+        color: white;
+        font-size: 1.5em;
+        margin: 20px auto;
+        text-align: center;
+        width: 20%;
+
+        padding: 7px;
+      }
+
+      .heading {
+        text-align: center;
+      }
+
+      .headings {
+        font-family: "Trebuchet MS", sans-serif;
+        font-size: 2em;
+        font-weight: bolder;
+        letter-spacing: 2px;
+        margin: 10px auto;
+        text-transform: uppercase;
+      }
+
+      .headings, .inputs, .outputs {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .hidden {
+        display: none;
+      }
+
       .writable {
         border: 1px solid gray;
+        border-radius: 10px;
         height: 300px;
+        padding: 10px;
+        white-space: pre-wrap;
+        width: 45%;
       }
 
       .writable:focus {
         outline: none;
       }
 
-      #directions {
-        float: right;
-        width: 49%;
+      #beautifyButton {
+        max-width: 15%;
+
+        display: flex;
+        justify-content: center;
       }
 
-      #ingredients {
-        float: left;
-        width: 49%;
+      #notes, #nutrition {
+        height: 200px;
       }
+
     </style>
 
     <div id="wrapper">
-      <span id="ingredients" class="writable" contenteditable></span>
-      <span id="directions" class="writable" contenteditable></span>
+      <div id="inputs">
+        <div class="headings">
+          <span class="heading">Ingredients</span>
+          <span class="heading">Directions</span>
+        </div>
+        <div class="inputs">
+          <pre id="ingredients" class="writable" contenteditable></pre>
+          <pre id="directions" class="writable" contenteditable></pre>
+        </div>
+        <div class="headings">
+          <span class="heading">Notes</span>
+          <span class="heading">Nutrition Facts</span>
+        </div>
+        <div class="inputs">
+          <span id="notes" class="writable" contenteditable></span>
+          <span id="nutrition" class="writable" contenteditable></span>
+        </div>
+        <div id="beautifyButton" class="custom-button">
+          Beautify
+        </div>
+      </div>
+      <div id="recipe" class="hidden">
+        <div class="headings">
+          <span class="heading">Ingredients</span>
+          <span class="heading">Directions</span>
+        </div>
+        <div class="outputs">
+          <span id="ingWrapper" class="printable">
+            <ul id="ingList">
+              <template is="dom-repeat" items="{{ingredients}}">
+                <li class="ingredient">
+                  {{item}}
+                </li>
+              </template>
+            </ul>
+          </span>
+          <span id="dirWrapper" class="printable"></span>
+        </div>
+        <div class="headings">
+          <span id="notesHeading" class="heading">Notes</span>
+          <span id="factsHeading" class="heading">Nutrition Facts</span>
+        </div>
+        <div class="outputs">
+          <span id="notesWrapper" class="printable"></span>
+          <span id="factsWrapper" class="printable"></span>
+        </div>
+        <div class="buttons">
+          <span id="newButton" class="custom-button">New Recipe</span>
+          <span id="editButton" class="custom-button">Edit Recipe</span>
+        </div>
+      </div>
     </div>
   </template>
 
@@ -35,6 +142,86 @@
       is: "recipe-beautifier",
 
       properties: {
+        query: {
+          type: String,
+          value: 'body'
+        },
+        ingredients: {
+          type: Array,
+          value: function() { return []; }
+        }
+      },
+
+      _beautify: function() {
+        // Add all the ingredients to the ingredients array
+        var ings = this.$.ingredients.innerHTML.split("<div>");
+        for (var i = 0; i < ings.length; i++) {
+          ings[i] = ings[i].replace("</div>","");
+          this.push('ingredients', ings[i]);
+        }
+
+        // Add all other inputs to their fields
+        this.$.dirWrapper.innerHTML = this.$.directions.innerHTML;
+
+        if (this.$.notes.innerHTML != "") {
+          this.$.notesWrapper.innerHTML = this.$.notes.innerHTML;
+        } else {
+          // Make sure notes heading is hidden if there are no notes
+          var heading = this.$.notesHeading;
+          heading.classList.remove('hidden');
+          heading.classList.add('hidden');
+        }
+
+        if (this.$.nutrition.innerHTML != "") {
+          this.$.factsWrapper.innerHTML = this.$.nutrition.innerHTML;
+        } else {
+          // Make sure notes heading is hidden if there are no notes
+          var heading = this.$.factsHeading;
+          heading.classList.remove('hidden');
+          heading.classList.add('hidden');
+        }
+
+        // Toggle the displays
+        this.$.inputs.classList.toggle('hidden');
+        this.$.recipe.classList.toggle('hidden');
+        document.querySelector('.nav-module').classList.add('print-hide');
+        document.querySelector('.footer-module').classList.add('print-hide');
+      },
+
+      _editRecipe: function() {
+        // Empty the ingredients array
+        this.splice('ingredients', 0, this.ingredients.length);
+
+        // Toggle the displays
+        this.$.inputs.classList.toggle('hidden');
+        this.$.recipe.classList.toggle('hidden');
+      },
+
+      _newRecipe: function() {
+        // Confirm
+        var message = "By continuing, all previous recipe information will be deleted";
+        if (!confirm(message)) {
+          return;
+        }
+
+        // Empty the ingredients array
+        this.splice('ingredients', 0, this.ingredients.length);
+
+        // Empty the input fields
+        this.$.ingredients.innerHTML = "";
+        this.$.directions.innerHTML = "";
+        this.$.notes.innerHTML = "";
+        this.$.nutrition.innerHTML = "";
+
+        // Toggle the displays
+        this.$.inputs.classList.toggle('hidden');
+        this.$.recipe.classList.toggle('hidden');
+      },
+
+      ready: function() {
+        this.listen(this.$.beautifyButton, 'tap', '_beautify');
+        this.listen(this.$.editButton, 'tap', '_editRecipe');
+        this.listen(this.$.newButton, 'tap', '_newRecipe');
       }
     })
   </script>
