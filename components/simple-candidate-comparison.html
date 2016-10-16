@@ -12,6 +12,15 @@
         font-size: 72pt;
       }
 
+      .remove {
+        background-color: red;
+        border: 1px solid black;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        padding: 0 3px;
+      }
+
       #addForm {
         margin-top: 10px;
         width: 146px;
@@ -34,7 +43,7 @@
         outline-width: 3px;
       }
 
-      #addForm .custom-button {
+      .custom-button {
         background-color: #002265;
         border: 2px solid black;
         border-radius: 10px;
@@ -72,8 +81,9 @@
     <div id="wrapper">
       <div id="candidates">
         <template is="dom-repeat" items="{{candidates}}">
-          <div class="candidate-name">
+          <div class="candidate-name" id="{{item.id}}">
             {{item.name}}
+            <span class="remove" title="Remove {{item.name}}" on-tap="_remove">X</span>
           </div>
           <weighted-options></weighted-options>
         </template>
@@ -87,11 +97,15 @@
           Add Candidate
         </div>
       </div>
-      <form class="hidden" id="addForm">
+      <form class="hidden" id="addForm" >
         <input type="text" id="nameToAdd" placeholder="Name" /><br />
         <span class="custom-button" id="addButton">Add</span>
         <span class="custom-button" id="cancelButton">Cancel</span>
       </form>
+
+      <div class="custom-button hidden" id="getResultsButton">
+        Get Results
+      </div>
     </div>
   </template>
 
@@ -103,15 +117,34 @@
         candidates: {
           type: Array,
           value: function(){return [];}
+          // value: function() {
+          //   return [
+          //     {name:"asdf",id:"idx0"},
+          //     {name:"fdsa",id:"idx1"},
+          //     {name:"qwerty",id:"idx2"}
+          //   ];
+          // }
+        },
+
+        candCount: {
+          type: Number,
+          value: 0,
+          observer: '_updateFinalButton'
         }
       },
 
-      _addCandidate: function() {
+      _addCandidate: function(e) {
+        // Prevent page refresh if form is submitted with enter key
+        if (e) {
+          e.preventDefault();
+        }
+
         // Check for actual input
         var name = this.$.nameToAdd.value;
         if (name !== '' && name !== null && name !== undefined) {
           // Add the candidate to the array
-          this.push('candidates', {"name": name});
+          this.push('candidates', {"name": name, "id": `idx${this.candCount}`});
+          this.candCount++;
         }
 
         // Hide the form again
@@ -124,19 +157,71 @@
       },
 
       _hideForm: function() {
-        // Hide the form and clear the input
-        this.$.addForm.classList.add('hidden');
+        // Only add hidden class if it isn't already there
+        if (!this.$.addForm.classList.contains('hidden')) {
+          // Hide the form
+          this.$.addForm.classList.add('hidden');
+        }
+        // Clear the input
         this.$.nameToAdd.value = "";
       },
 
       _toggleAddForm: function() {
-        this.$.addForm.classList.toggle('hidden');
+        var classes = this.$.addForm.classList;
+        if (classes.contains('hidden')) {
+          // Display the form and put focus on the name input
+          classes.remove('hidden');
+          this.$.nameToAdd.focus();
+        } else {
+          // Hide the form
+          classes.add('hidden');
+        }
+      },
+
+      _handleKeypress: function(e) {
+        // Hide the form when escape is pressed
+        if (e.keyCode === 27) {
+          this._hideForm();
+        }
+      },
+
+      _remove: function(e) {
+        var id = e.srcElement.parentElement.id;
+        for (var i = 0; i < this.candidates.length; i++) {
+          var currentId = this.candidates[i].id;
+          if (currentId === id) {
+            this.splice('candidates', i--, 1);
+            this.candCount--;
+          } else {
+            this.candidates[i].id = `idx${i}`;
+            this.$.candidates.children[currentId].id = `idx${i}`;
+          }
+        }
+      },
+
+      _updateFinalButton: function() {
+        if (this.candCount >= 2) {
+          if (this.$.getResultsButton.classList.contains('hidden')) {
+            this.$.getResultsButton.classList.remove('hidden');
+          }
+        } else {
+          if (!this.$.getResultsButton.classList.contains('hidden')) {
+            this.$.getResultsButton.classList.add('hidden');
+          }
+        }
+      },
+
+      _calcResults: function() {
+
       },
 
       ready: function() {
         this.listen(this.$.toggleAddForm, 'tap', '_toggleAddForm');
+        this.listen(this.$.addForm, 'submit', '_addCandidate');
         this.listen(this.$.addButton, 'tap', '_addCandidate');
         this.listen(this.$.cancelButton, 'tap', '_cancelAdd');
+        this.listen(this.$.getResultsButton, 'tap', '_calcResults')
+        this.listen(window, 'keyup', '_handleKeypress');
       }
     })
   </script>

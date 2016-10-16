@@ -4,20 +4,49 @@
 <dom-module id="weighted-options">
   <template>
     <style>
+      select {
+        width: 100%;
+      }
+      table {
+        border-collapse: separate;
+        border-spacing: 10px;
+      }
 
+      .topic-weight {
+        width: 100%;
+      }
     </style>
 
     <div>
-      <template is="dom-repeat" items="{{topics}}">
-        <div id="{{topic.id}}" class="option">
-          <span class="topic-name">{{topic.name}}</span>
-          <select id="{{topic.likeId}}">
-            <option value="like">Like</option>
-            <option value="dislike">Dislike</option>
-          </select>
-          <input type="number" id="{{topic.weightId}}" class="topic-weight" min="1" max="10" value="5" />
-        </div>
-      </template>
+      <table>
+        <tr>
+          <th>
+            Topic
+          </th>
+          <th>
+            Like/Dislike
+          </th>
+          <th>
+            Weight
+          </th>
+        </tr>
+        <template is="dom-repeat" items="{{topics}}">
+          <tr id="{{item.id}}" class="option">
+            <td>
+              <span class="topic-name">{{item.name}}</span>
+            </td>
+            <td>
+              <select id="{{item.likeId}}">
+                <option value="like">Like</option>
+                <option value="dislike">Dislike</option>
+              </select>
+            </td>
+            <td>
+              <input type="number" id="{{item.weightId}}" class="topic-weight" min="1" max="10" value="5" />
+            </td>
+          </tr>
+        </template>
+      </table>
     </div>
   </template>
 
