@@ -57,6 +57,16 @@ main h1 {
   font-family: "Trebuchet MS", sans-serif;
 }
 
+.hidden {
+  display: none;
+}
+
+@media print {
+  .print-hide {
+    display: none;
+  }
+}
+
 /*Styles shared by multiple roles*/
 [role=banner],
 [role=main],
