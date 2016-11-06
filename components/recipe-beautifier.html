@@ -4,11 +4,6 @@
 <dom-module id="recipe-beautifier">
   <template>
     <style>
-      @media print {
-        header-module, nav-module, footer-module, .buttons * {
-          display: none;
-        }
-      }
       pre {
         font-family: Verdana, sans-serif;
       }
@@ -28,6 +23,7 @@
         font-size: 1.5em;
         margin: 20px auto;
         text-align: center;
+        text-shadow: 1.5px 1.5px 3px black;
         width: 20%;
 
         padding: 7px;
@@ -43,17 +39,33 @@
         font-weight: bolder;
         letter-spacing: 2px;
         margin: 10px auto;
+        text-align: center;
         text-transform: uppercase;
+        width: 100%;
       }
 
-      .headings, .inputs, .outputs {
+      .headings, .inputs {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
       }
 
+      .outputs span:nth-child(even) {
+        display: flex;
+        justify-content: center;
+      }
+
+      .outputs span:nth-child(odd) {
+        display: flex;
+        justify-content: flex-start;
+      }
+
       .hidden {
         display: none;
+      }
+
+      .invisible {
+        visibility: hidden;
       }
 
       .writable {
@@ -80,6 +92,17 @@
         height: 200px;
       }
 
+      /*#recipe .outputs:nth-child(even) {
+        display: block;
+        float: right;
+        text-align: left;
+      }*/
+
+      @media print {
+        .print-hide {
+          display: none;
+        }
+      }
     </style>
 
     <div id="wrapper">
@@ -129,7 +152,7 @@
           <span id="notesWrapper" class="printable"></span>
           <span id="factsWrapper" class="printable"></span>
         </div>
-        <div class="buttons">
+        <div class="buttons print-hide">
           <span id="newButton" class="custom-button">New Recipe</span>
           <span id="editButton" class="custom-button">Edit Recipe</span>
         </div>
@@ -142,11 +165,11 @@
       is: "recipe-beautifier",
 
       properties: {
-        query: {
-          type: String,
-          value: 'body'
-        },
         ingredients: {
+          type: Array,
+          value: function() { return []; }
+        },
+        pageHideables: {
           type: Array,
           value: function() { return []; }
         }
@@ -163,29 +186,32 @@
         // Add all other inputs to their fields
         this.$.dirWrapper.innerHTML = this.$.directions.innerHTML;
 
+        this.$.notesWrapper.innerHTML = this.$.notes.innerHTML;
         if (this.$.notes.innerHTML != "") {
-          this.$.notesWrapper.innerHTML = this.$.notes.innerHTML;
+          this.$.notesHeading.classList.remove('invisible');
         } else {
           // Make sure notes heading is hidden if there are no notes
-          var heading = this.$.notesHeading;
-          heading.classList.remove('hidden');
-          heading.classList.add('hidden');
+          this.$.notesHeading.classList.add('invisible');
         }
 
+        this.$.factsWrapper.innerHTML = this.$.nutrition.innerHTML;
         if (this.$.nutrition.innerHTML != "") {
-          this.$.factsWrapper.innerHTML = this.$.nutrition.innerHTML;
+          this.$.factsHeading.classList.remove('invisible');
         } else {
-          // Make sure notes heading is hidden if there are no notes
-          var heading = this.$.factsHeading;
-          heading.classList.remove('hidden');
-          heading.classList.add('hidden');
+          // Make sure nutrition heading is hidden if there are no nutrition facts
+          this.$.factsHeading.classList.add('invisible');
         }
 
         // Toggle the displays
         this.$.inputs.classList.toggle('hidden');
         this.$.recipe.classList.toggle('hidden');
-        document.querySelector('.nav-module').classList.add('print-hide');
-        document.querySelector('.footer-module').classList.add('print-hide');
+
+        for (var i = 0; i < this.pageHideables.length; i++) {
+          var query = document.querySelector(this.pageHideables[i]);
+          if (query && query.classList) {
+            query.classList.add('print-hide');
+          }
+        }
       },
 
       _editRecipe: function() {
@@ -195,6 +221,8 @@
         // Toggle the displays
         this.$.inputs.classList.toggle('hidden');
         this.$.recipe.classList.toggle('hidden');
+
+        this.$.ingredients.focus();
       },
 
       _newRecipe: function() {
@@ -204,24 +232,22 @@
           return;
         }
 
-        // Empty the ingredients array
-        this.splice('ingredients', 0, this.ingredients.length);
-
         // Empty the input fields
         this.$.ingredients.innerHTML = "";
         this.$.directions.innerHTML = "";
         this.$.notes.innerHTML = "";
         this.$.nutrition.innerHTML = "";
 
-        // Toggle the displays
-        this.$.inputs.classList.toggle('hidden');
-        this.$.recipe.classList.toggle('hidden');
+        // Call _editRecipe for the rest of the common logic
+        this._editRecipe();
       },
 
       ready: function() {
         this.listen(this.$.beautifyButton, 'tap', '_beautify');
         this.listen(this.$.editButton, 'tap', '_editRecipe');
         this.listen(this.$.newButton, 'tap', '_newRecipe');
+
+        this.$.ingredients.focus();
       }
     })
   </script>
